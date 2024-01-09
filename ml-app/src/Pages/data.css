@@ -1,0 +1,10 @@
+.table-wrapper {
+    max-height: 300px; /* Set a max height to the table wrapper */
+    overflow-y: auto; /* Enable vertical scrolling */
+  }
+  
+  thead {
+    position: sticky; /* Sticky positioning for thead */
+    top: 0; /* Stick to the top */
+    background-color: #fff; /* Background color for thead */
+  }
