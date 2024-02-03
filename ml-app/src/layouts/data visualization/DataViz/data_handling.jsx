@@ -1,15 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import DataTable , {Alignment, createTheme, defaultThemes}from 'react-data-table-component';
-//import CSVDataTable from "./CSVDataTable";
-import axios from 'axios';
 
 import * as XLSX from 'xlsx';
 
-export const Datahandling = () => {
+export const DataUploader = () => {
   const [file, setFile] = useState(null);
-  
   const [data, setData] = useState([]);
-  const [missingValues, setMissingValues] = useState([]);
   const [pending, setPending] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -28,33 +24,6 @@ export const Datahandling = () => {
   };
 
 
-  const handleUpload = async () => {
-      const formData = new FormData();
-      formData.append('file', file);
-
-      try {
-          const response = await axios.post('http://127.0.0.1:8000/api/upload/') 
-          //{
-          //     headers: {
-          //         'Content-Disposition': `attachment; filename=${file.name}`,
-          //     },
-          // });
-
-          const result = response.data;
-          console.log(result);
-
-          // After uploading, fetch the content for visualization
-          const contentResponse = await axios.get(`http://127.0.0.1:8000/visualize-file/${file.name}`);
-          const contentResult = contentResponse.data;
-          console.log(contentResult);
-
-          // Now you can use the contentResult in your React component as needed
-      } catch (error) {
-          console.error('Error uploading file:', error);
-      }
-  };
-
-
 
   const parseData = (content) => {
     try {
@@ -65,12 +34,10 @@ export const Datahandling = () => {
       const sheet = workbook.Sheets[sheetName];
       const parsedData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
       setData(parsedData);
-      
-      evaluateMissingValues(parsedData);
     } catch (error) {
       setError('Error parsing the file. Please upload a valid file.');
       setData([]);
-      setMissingValues([]);
+
     } finally {
       setLoading(false);
     }
@@ -83,18 +50,6 @@ export const Datahandling = () => {
     }, 2000);
     return () => clearTimeout(timeout);
   }, []);
-
-  const evaluateMissingValues = (data) => {
-    if (data.length > 0) {
-      const missingData = [];
-      for (let i = 0; i < data[0].length; i++) {
-        const column = data.map((row) => (row[i] ? row[i].toString().trim() : ''));
-        const missingCount = column.filter((value) => value === '').length;
-        missingData.push({ columnName: data[0][i], missingCount });
-      }
-      setMissingValues(missingData);
-    }
-  };
 
   const customStyles = {
   	header: {
@@ -144,12 +99,11 @@ export const Datahandling = () => {
   // ))
   console.log(data &&{data});
 
+
   return (
     <div>
-      <h1>Missing Values Evaluator</h1>
+      <h1>Data Visualization</h1>
       <input type="file" accept=".csv, .xlsx, .xls" onChange={handleFileUpload} />
-      {/* <a href="{% url 'file-upload' %}">Upload a File</a> */}
-      <button  onClick={handleUpload}> Upload File</button>
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
       {data.length > 0 && (
@@ -178,30 +132,8 @@ export const Datahandling = () => {
           
         />
       )}
-      {missingValues.length > 0 && (
-        <div>
-          <h2>Data with Missing Values</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Column Name</th>
-                <th>Missing Values</th>
-              </tr>
-            </thead>
-            <tbody>
-              {missingValues.map((item, index) => (
-                <tr key={index}>
-                  <td>{item.columnName}</td>
-                  <td>{item.missingCount}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+      
     </div>
-  );
+  )
 };
-
-export default Datahandling;
-
+export default DataUploader;
