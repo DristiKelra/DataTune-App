@@ -14,9 +14,10 @@ class DynamicData(models.Model):
 
 
 
+
 class UploadedData(models.Model):
     file = models.FileField(upload_to='uploads/')
-    upload_date = models.DateTimeField(auto_now_add=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
     # Add more fields as needed
 
     def __str__(self):
