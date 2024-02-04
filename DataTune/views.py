@@ -6,17 +6,16 @@ from django.shortcuts import render
 from DataTune.api.serializers import YourModelSerializer
 
 # views.py
-<<<<<<< HEAD
+
 from django.http import HttpResponse
 from django.shortcuts import render
 import pandas as pd  
-=======
->>>>>>> origin/master
+
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 
-<<<<<<< HEAD
+
 from django.http import JsonResponse
 from django.middleware.csrf import get_token
 
@@ -24,8 +23,7 @@ def get_csrf_token(request):
     csrf_token = get_token(request)
     return JsonResponse({'csrfToken': csrf_token})
 
-=======
->>>>>>> origin/master
+
 
 class HandleMissingValuesView(generics.UpdateAPIView):
     queryset = UploadedData.objects.all()
@@ -62,37 +60,36 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.parsers import FileUploadParser
 from .models import UploadedData
-<<<<<<< HEAD
+
 from rest_framework import status
-=======
->>>>>>> origin/master
+
 from .serializers import UploadedFileSerializer
 
 class FileUploadView(APIView):
     parser_classes = (FileUploadParser,)
 
     def post(self, request, *args, **kwargs):
-<<<<<<< HEAD
+
         try:
             file_obj = request.FILES['file']
         except KeyError:
             return Response({'error': 'File not provided in the request.'}, status=status.HTTP_400_BAD_REQUEST)
-=======
+
         file_obj = request.FILES['file']
         
->>>>>>> origin/master
+
         print(f'Received file: {file_obj.name}')
         uploaded_file = UploadedData(file=file_obj)
         uploaded_file.save()
         
         serializer = UploadedFileSerializer(uploaded_file)
-<<<<<<< HEAD
+
         return Response({'message': 'File uploaded successfully','data': serializer.data},status=status.HTTP_201_CREATED)
-=======
+
         # Process the file as needed (e.g., save to database, perform operations)
         # Return a response as needed
         return Response({'message': 'File uploaded successfully','data': serializer.data})
->>>>>>> origin/master
+
 
 class UploadedFileListView(APIView):
     def get(self, request, *args, **kwargs):
@@ -106,20 +103,17 @@ def list_uploaded_files(request):
     files = UploadedData.objects.all()
     return render(request, 'file_list.html', {'files': files})
 
-<<<<<<< HEAD
+
 
 
 # Uploaded File as a html
-
-=======
-# Create your views here.
 
 
 # Uploaded File as a html
 from django.http import HttpResponse
 from django.shortcuts import render
 import pandas as pd  # Assuming you have pandas installed
->>>>>>> origin/master
+
 
 def visualize_file_content(request, file_path):
     try:
@@ -134,8 +128,8 @@ def visualize_file_content(request, file_path):
     except Exception as e:
         # Handle exceptions (e.g., file not found, invalid file format)
         return HttpResponse(f"Error: {str(e)}")
-<<<<<<< HEAD
-=======
+
+
     
 #Data Visualization
 from collections import Counter
@@ -248,4 +242,4 @@ def results(request):
     }
 
     return render(request, 'result.html', context)
->>>>>>> origin/master
+
