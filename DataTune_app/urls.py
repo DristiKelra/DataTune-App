@@ -22,7 +22,11 @@ from django.views.generic import TemplateView
 from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
+<<<<<<< HEAD
 from DataTune.views import FileUploadView, UploadedFileListView, visualize_file_content,get_csrf_token
+=======
+from DataTune.views import FileUploadView, UploadedFileListView, visualize_file_content
+>>>>>>> origin/master
 
 urlpatterns = [
     
@@ -32,7 +36,11 @@ urlpatterns = [
     path('api/', include('DataTune_app.api.urls')),
     path('DataTune/', include('DataTune.urls')),
     path('api/upload/', FileUploadView.as_view(), name='file-upload'),
+<<<<<<< HEAD
     path('get-csrf-token/', get_csrf_token, name='get-csrf-token'),
+=======
+
+>>>>>>> origin/master
     path('visualize-file/<path:file_path>/', visualize_file_content, name='visualize_file_content'),
 
 

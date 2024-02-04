@@ -7,7 +7,12 @@ from . import views
 from .views import HandleMissingValuesView
 
 from django.urls import path
+<<<<<<< HEAD
 from .views import FileUploadView, UploadedFileListView, visualize_file_content, get_csrf_token
+=======
+from .views import FileUploadView, UploadedFileListView, visualize_file_content
+
+>>>>>>> origin/master
 
 
 
@@ -17,7 +22,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/upload/', FileUploadView.as_view(), name='file-upload'),
     path('api/files/', UploadedFileListView.as_view(), name='file-list'),
+<<<<<<< HEAD
     path('get-csrf-token/', get_csrf_token, name='get-csrf-token'),
+=======
+>>>>>>> origin/master
     #path('', views.index, name='index'),
     #path('api/upload/', handle_uploaded_file, name='handle_uploaded_file'),
     # Other URLs...

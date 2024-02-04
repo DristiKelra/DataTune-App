@@ -63,7 +63,11 @@ const Dataviz =() => {
 
     <DashboardLayout>
       <DashboardNavbar />
+<<<<<<< HEAD
       {/* <DataUploader/> */}
+=======
+      <DataUploader/>
+>>>>>>> origin/master
       <FileUpload onFileUpload={handleFileUpload} /> 
       <DataViz data={uploadedData} />
 

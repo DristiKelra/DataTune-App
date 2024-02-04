@@ -99,6 +99,17 @@ const routes = [
   //   route: "/notifications",
   //   component: <Notifications />,
   // },
+<<<<<<< HEAD
+=======
+  // {
+  //   type: "collapse",
+  //   name: "Profile",
+  //   key: "profile",
+  //   icon: <Icon fontSize="small">person</Icon>,
+  //   route: "/profile",
+  //   component: <Profile />,
+  // },
+>>>>>>> origin/master
   // {
   //   type: "collapse",
   //   name: "Profile",

@@ -6,13 +6,17 @@ from django.shortcuts import render
 from DataTune.api.serializers import YourModelSerializer
 
 # views.py
+<<<<<<< HEAD
 from django.http import HttpResponse
 from django.shortcuts import render
 import pandas as pd  
+=======
+>>>>>>> origin/master
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 
+<<<<<<< HEAD
 from django.http import JsonResponse
 from django.middleware.csrf import get_token
 
@@ -20,6 +24,8 @@ def get_csrf_token(request):
     csrf_token = get_token(request)
     return JsonResponse({'csrfToken': csrf_token})
 
+=======
+>>>>>>> origin/master
 
 class HandleMissingValuesView(generics.UpdateAPIView):
     queryset = UploadedData.objects.all()
@@ -56,23 +62,37 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.parsers import FileUploadParser
 from .models import UploadedData
+<<<<<<< HEAD
 from rest_framework import status
+=======
+>>>>>>> origin/master
 from .serializers import UploadedFileSerializer
 
 class FileUploadView(APIView):
     parser_classes = (FileUploadParser,)
 
     def post(self, request, *args, **kwargs):
+<<<<<<< HEAD
         try:
             file_obj = request.FILES['file']
         except KeyError:
             return Response({'error': 'File not provided in the request.'}, status=status.HTTP_400_BAD_REQUEST)
+=======
+        file_obj = request.FILES['file']
+        
+>>>>>>> origin/master
         print(f'Received file: {file_obj.name}')
         uploaded_file = UploadedData(file=file_obj)
         uploaded_file.save()
         
         serializer = UploadedFileSerializer(uploaded_file)
+<<<<<<< HEAD
         return Response({'message': 'File uploaded successfully','data': serializer.data},status=status.HTTP_201_CREATED)
+=======
+        # Process the file as needed (e.g., save to database, perform operations)
+        # Return a response as needed
+        return Response({'message': 'File uploaded successfully','data': serializer.data})
+>>>>>>> origin/master
 
 class UploadedFileListView(APIView):
     def get(self, request, *args, **kwargs):
@@ -86,10 +106,20 @@ def list_uploaded_files(request):
     files = UploadedData.objects.all()
     return render(request, 'file_list.html', {'files': files})
 
+<<<<<<< HEAD
 
 
 # Uploaded File as a html
 
+=======
+# Create your views here.
+
+
+# Uploaded File as a html
+from django.http import HttpResponse
+from django.shortcuts import render
+import pandas as pd  # Assuming you have pandas installed
+>>>>>>> origin/master
 
 def visualize_file_content(request, file_path):
     try:
@@ -104,3 +134,118 @@ def visualize_file_content(request, file_path):
     except Exception as e:
         # Handle exceptions (e.g., file not found, invalid file format)
         return HttpResponse(f"Error: {str(e)}")
+<<<<<<< HEAD
+=======
+    
+#Data Visualization
+from collections import Counter
+
+from django.shortcuts import render, redirect
+from django.core.files.storage import FileSystemStorage
+import os
+
+from django.contrib import messages
+#dict ={}
+def index(request):
+
+    context = {}
+    global attribute
+
+    if request.method == 'POST':
+
+        uploaded_file = request.FILES['document']
+        attribute = request.POST.get('attributeid')
+
+        print(attribute)
+
+        #check if this file ends with csv
+        if uploaded_file.name.endswith('.csv'):
+            savefile = FileSystemStorage()
+
+            name = savefile.save(uploaded_file.name, uploaded_file) #gets the name of the file
+            print(name)
+
+
+            #we need to save the file somewhere in the project, MEDIA
+            #now lets do the savings
+
+            d = os.getcwd() # how we get the current dorectory
+            # file_directory = d+'\media\\'+name #saving the file in the media directory
+            print(file_directory)
+            readfile(file_directory)
+
+            request.session['attribute'] = attribute
+
+            if attribute not in data.axes[1]:
+                messages.warning(request, 'Please write the column name correctly')
+            else:
+                print(attribute)
+                return redirect(results)
+
+        else:
+            messages.warning(request, 'File was not uploaded. Please use .csv file extension!')
+
+
+    return  render(request, 'index.html', context)
+
+
+            #project_data.csv
+def readfile(filename):
+
+    #we have to create those in order to be able to access it around
+    # use panda to read the file because i can use DATAFRAME to read the file
+    #column;culumn2;column
+    global rows,columns,data,my_file,missing_values
+     #read the missing data - checking if there is a null
+    missingvalue = ['?', '0', '--']
+
+    my_file = pd.read_csv(filename, sep='[:;,|_]',na_values=missingvalue, engine='python')
+
+    data = pd.DataFrame(data=my_file, index=None)
+    print(data)
+
+    rows = len(data.axes[0])
+    columns = len(data.axes[1])
+
+
+    null_data = data[data.isnull().any(axis=1)] # find where is the missing data #na null =['x1','x13']
+    missing_values = len(null_data)
+
+
+
+def results(request):
+    # prepare the visualization
+                                #12
+    message = 'I found ' + str(rows) + ' rows and ' + str(columns) + ' columns. Missing data: ' + str(missing_values)
+    messages.warning(request, message)
+
+    dashboard = [] # ['A11','A11',A'122',]
+    for x in data[attribute]:
+        dashboard.append(x)
+
+    my_dashboard = dict(Counter(dashboard)) #{'A121': 282, 'A122': 232, 'A124': 154, 'A123': 332}
+
+    print(my_dashboard)
+
+    keys = my_dashboard.keys() # {'A121', 'A122', 'A124', 'A123'}
+    values = my_dashboard.values()
+
+    listkeys = []
+    listvalues = []
+
+    for x in keys:
+        listkeys.append(x)
+
+    for y in values:
+        listvalues.append(y)
+
+    print(listkeys)
+    print(listvalues)
+
+    context = {
+        'listkeys': listkeys,
+        'listvalues': listvalues,
+    }
+
+    return render(request, 'result.html', context)
+>>>>>>> origin/master
