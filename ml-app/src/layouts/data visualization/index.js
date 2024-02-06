@@ -1,47 +1,25 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// @mui material components
-import Grid from "@mui/material/Grid";
-
-// Material Dashboard 2 React components
-import MDBox from "components/MDBox";
 import React, { useState } from 'react';
-// Material Dashboard 2 React example components
+import Grid from "@mui/material/Grid";
+import MDBox from "components/MDBox";
+import Papa from "papaparse";
 import DashboardLayout from "elements/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "elements/Navbars/DashboardNavbar";
 import Footer from "elements/Footer";
-//import ReportsBarChart from "elements/Charts/BarCharts/ReportsBarChart";
-//import ReportsLineChart from "elements/Charts/LineCharts/ReportsLineChart";
-//import ComplexStatisticsCard from "elements/Cards/StatisticsCards/ComplexStatisticsCard";
-
-// Data
+import ReportsBarChart from "elements/Charts/BarCharts/ReportsBarChart";
+import ReportsLineChart from "elements/Charts/LineCharts/ReportsLineChart";
+import ComplexStatisticsCard from "elements/Cards/StatisticsCards/ComplexStatisticsCard";
 import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
 import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
-import DataUploader from "./DataViz/data_handling";
-import FileUpload from "./DataViz/Fileupload";
-import DataViz from "./DataViz";
+import DataViz from "./DataViz"; // Assuming this is the correct import for your DataViz component
 
-// data extraction function using papaparse for CSV files
-import Papa from 'papaparse';
-
-
-
-const Dataviz =() => {
-  //const { sales, tasks } = reportsLineChartData;
+export const Datavisualise = () => {
   const [uploadedData, setUploadedData] = useState(null);
+
+  const handleFileUpload = (file) => {
+   
+    extractDataFromCSV(file, setUploadedData);
+  };
+
   const extractDataFromCSV = (file, onDataExtracted) => {
     Papa.parse(file, {
       complete: (result) => {
@@ -51,159 +29,51 @@ const Dataviz =() => {
     });
   };
 
-  
-    const handleFileUpload = (file) => {
-      // Example: Extract data from CSV file
-      extractDataFromCSV(file, setUploadedData);
-    };
-  
-  
-
   return (
-
     <DashboardLayout>
       <DashboardNavbar />
-      {/* <DataUploader/> */}
+      
 
-      <DataUploader/>
+      {/* Add your DataViz component here */}
+      <DataViz onDrop={handleFileUpload} />
 
-      <FileUpload onFileUpload={handleFileUpload} /> 
-      <DataViz data={uploadedData} />
-
-        
-      {/* <MDBox mt={4.5}>
-          {/* <Grid container spacing={3}>
-            {/* <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
-                <ReportsBarChart
-                  color="info"
-                  title="Upload Dataset"
-                  description="Dataset prepared and upated for Model Development"
-                  date="Accpetable filetypes excel and csv format"
-                  chart={reportsBarChartData}
-                />
-              </MDBox>
-            </Grid>
-            </MDBox> */}
-            {/* <Grid item xs={12} md={6} lg={4}> */}
-            
-      {/* <MDBox py={3}>
+      <MDBox mt={4.5}>
         <Grid container spacing={3}>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
+          <Grid item xs={12} md={6} lg={4}>
+            <MDBox mb={3}>
+              <ReportsBarChart
+                color="info"
+                title="Upload Dataset"
+                description="Dataset prepared and updated for Model Development"
+                date="Acceptable file types: excel and csv format"
+                chart={reportsBarChartData}
+              />
+            </MDBox>
+          </Grid>
+          <Grid item xs={12} md={6} lg={4}>
+            <MDBox py={3}>
+              <Grid container spacing={3}>
+                {/* Add your statistics cards here */}
+              </Grid>
+            </MDBox>
+          </Grid>
+          <Grid item xs={12} md={6} lg={4}>
+            <MDBox mb={3}>
+              <ReportsLineChart
                 color="dark"
-                icon="weekend"
-                title="Bookings"
-                count={281}
-                percentage={{
-                  color: "success",
-                  amount: "+55%",
-                  label: "than lask week",
-                }}
-              />
-            </MDBox>
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                icon="leaderboard"
-                title="Today's Users"
-                count="2,300"
-                percentage={{
-                  color: "success",
-                  amount: "+3%",
-                  label: "than last month",
-                }}
-              />
-            </MDBox>
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="success"
-                icon="store"
-                title="Revenue"
-                count="34k"
-                percentage={{
-                  color: "success",
-                  amount: "+1%",
-                  label: "than yesterday",
-                }}
-              />
-            </MDBox>
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="primary"
-                icon="person_add"
-                title="Followers"
-                count="+91"
-                percentage={{
-                  color: "success",
-                  amount: "",
-                  label: "Just updated",
-                }}
+                title="completed tasks"
+                description="Last Campaign Performance"
+                date="just updated"
+                chart={reportsLineChartData.tasks}
               />
             </MDBox>
           </Grid>
         </Grid>
-        <MDBox mt={4.5}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
-                <ReportsBarChart
-                  color="info"
-                  title="website views"
-                  description="Last Campaign Performance"
-                  date="campaign sent 2 days ago"
-                  chart={reportsBarChartData}
-                />
-              </MDBox>
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
-                <ReportsLineChart
-                  color="success"
-                  title="daily sales"
-                  description={
-                    <>
-                      (<strong>+15%</strong>) increase in today sales.
-                    </>
-                  }
-                  date="updated 4 min ago"
-                  chart={sales}
-                />
-              </MDBox>
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
-                <ReportsLineChart
-                  color="dark"
-                  title="completed tasks"
-                  description="Last Campaign Performance"
-                  date="just updated"
-                  chart={tasks}
-                />
-              </MDBox>
-            </Grid>
-          </Grid>
-        </MDBox>
-        <MDBox>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={8}>
-              <Projects />
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <OrdersOverview />
-            </Grid>
-          </Grid>
-        </MDBox>
-      </MDBox> */}
+      </MDBox>
+
       <Footer />
     </DashboardLayout>
   );
-}
+};
 
-export default Dataviz;
+export default Datavisualise;
