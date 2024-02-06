@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import DataTable , {Alignment, createTheme, defaultThemes}from 'react-data-table-component';
-<<<<<<< HEAD
-=======
+
 //import CSVDataTable from "./CSVDataTable";
->>>>>>> origin/master
+
 import axios from 'axios';
 
 import * as XLSX from 'xlsx';
@@ -83,31 +82,31 @@ export const Datahandling = () => {
 
 
 
-  const handleUpload = async () => {
-      const formData = new FormData();
-      formData.append('file', file);
+  // const handleUpload = async () => {
+  //     const formData = new FormData();
+  //     formData.append('file', file);
 
-      try {
-          const response = await axios.post('http://127.0.0.1:8000/api/upload/') 
-          //{
-          //     headers: {
-          //         'Content-Disposition': `attachment; filename=${file.name}`,
-          //     },
-          // });
+  //     try {
+  //         const response = await axios.post('http://127.0.0.1:8000/api/upload/') 
+  //         //{
+  //         //     headers: {
+  //         //         'Content-Disposition': `attachment; filename=${file.name}`,
+  //         //     },
+  //         // });
 
-          const result = response.data;
-          console.log(result);
+  //         const result = response.data;
+  //         console.log(result);
 
-          // After uploading, fetch the content for visualization
-          const contentResponse = await axios.get(`http://127.0.0.1:8000/visualize-file/${file.name}`);
-          const contentResult = contentResponse.data;
-          console.log(contentResult);
+  //         // After uploading, fetch the content for visualization
+  //         const contentResponse = await axios.get(`http://127.0.0.1:8000/visualize-file/${file.name}`);
+  //         const contentResult = contentResponse.data;
+  //         console.log(contentResult);
 
-          // Now you can use the contentResult in your React component as needed
-      } catch (error) {
-          console.error('Error uploading file:', error);
-      }
-  };
+  //         // Now you can use the contentResult in your React component as needed
+  //     } catch (error) {
+  //         console.error('Error uploading file:', error);
+  //     }
+  // };
 
 
 

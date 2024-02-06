@@ -243,3 +243,13 @@ def results(request):
 
     return render(request, 'result.html', context)
 
+
+
+def get_eda_report(request):
+    # Read the HTML file
+    with open('.\static\media\EDA_report\pandas_profiling_report_SE_lab1.html', 'r') as file:
+        eda_report_content = file.read()
+
+    # Return HTML content as response
+    return HttpResponse(eda_report_content, content_type='text/html')
+

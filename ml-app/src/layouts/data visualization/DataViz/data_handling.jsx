@@ -99,11 +99,6 @@ export const DataUploader = () => {
   // ))
   console.log(data &&{data});
 
-<<<<<<< HEAD
-  
-
-=======
->>>>>>> origin/master
 
   return (
     <div>

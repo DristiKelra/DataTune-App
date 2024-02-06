@@ -44,6 +44,7 @@ import Datahandling from "layouts/datahandler";
 // import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
 import DataViz from "layouts/data visualization"
+import EDAReport from "layouts/EDA_Report/EDAReport";
 // import SignIn from "layouts/authentication/sign-in";
 // import SignUp from "layouts/authentication/sign-up";
 
@@ -67,6 +68,14 @@ const routes = [
     route: "/datahandler",
     component: <Datahandling />,
   },
+  {
+    type: "collapse",
+    name: "EDA Report",
+    key: "EDA_report",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/EDA_Report",
+    component: <EDAReport/>,
+  },
   // {
   //   type: "collapse",
   //   name: "Tables",
@@ -83,14 +92,7 @@ const routes = [
     route: "/datavisualization",
     component: <DataViz />,
   },
-  // {
-  //   type: "collapse",
-  //   name: "RTL",
-  //   key: "rtl",
-  //   icon: <Icon fontSize="small">format_textdirection_r_to_l</Icon>,
-  //   route: "/rtl",
-  //   component: <RTL />,
-  // },
+  
   // {
   //   type: "collapse",
   //   name: "Notifications",
@@ -99,8 +101,8 @@ const routes = [
   //   route: "/notifications",
   //   component: <Notifications />,
   // },
-<<<<<<< HEAD
-=======
+
+
   // {
   //   type: "collapse",
   //   name: "Profile",
@@ -109,7 +111,7 @@ const routes = [
   //   route: "/profile",
   //   component: <Profile />,
   // },
->>>>>>> origin/master
+
   // {
   //   type: "collapse",
   //   name: "Profile",

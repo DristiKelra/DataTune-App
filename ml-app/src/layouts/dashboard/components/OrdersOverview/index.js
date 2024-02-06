@@ -16,6 +16,8 @@ Coded by www.creative-tim.com
 // @mui material components
 import Card from "@mui/material/Card";
 import Icon from "@mui/material/Icon";
+import DropFileInput from "../DataUpload/DropFileInput";
+// ./components/drop-file-input/DropFileInput';
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -25,9 +27,24 @@ import MDTypography from "components/MDTypography";
 import TimelineItem from "elements/Timeline/TimelineItem";
 
 function OrdersOverview() {
+  const onFileChange = (files) => {
+    console.log(files);
+}
+
   return (
     <Card sx={{ height: "100%" }}>
       <MDBox pt={3} px={3}>
+      {/* <div className="box"> */}
+      <MDTypography variant="h6" fontWeight="medium">
+          React drop files input
+        </MDTypography>
+        <DropFileInput
+          onFileChange={(files) => onFileChange(files)}
+        />
+        {/* </div> */}
+      </MDBox>
+       
+      {/* <MDBox pt={3} px={3}>
         <MDTypography variant="h6" fontWeight="medium">
           Orders overview
         </MDTypography>
@@ -76,7 +93,7 @@ function OrdersOverview() {
           dateTime="18 DEC 4:54 AM"
           lastItem
         />
-      </MDBox>
+      </MDBox> */}
     </Card>
   );
 }

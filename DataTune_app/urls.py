@@ -23,7 +23,7 @@ from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 
-from DataTune.views import FileUploadView, UploadedFileListView, visualize_file_content,get_csrf_token
+from DataTune.views import FileUploadView, UploadedFileListView, visualize_file_content,get_csrf_token, get_eda_report
 
 
 
@@ -31,6 +31,7 @@ urlpatterns = [
     
     path('',TemplateView.as_view(template_name ='index.html')),
     path('dashboard/',TemplateView.as_view(template_name ='index.html')),
+    path('api/get-eda-report/', get_eda_report, name='get_eda_report'),
     path('admin/', admin.site.urls),
     path('api/', include('DataTune_app.api.urls')),
     path('DataTune/', include('DataTune.urls')),
