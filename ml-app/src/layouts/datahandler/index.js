@@ -35,6 +35,7 @@ import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
 //import Projects from "layouts/dashboard/components/Projects";
 //import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 import Datahandling from "layouts/datahandler/Datahandling";
+import DefaultProjectCard from "elements/Cards/ProjectCards/DefaultProjectCard";
 //import handleFileUpload from "layouts/datahandler/Datahandling"
 
 function datahandler() {
@@ -51,17 +52,19 @@ function datahandler() {
           {/* <Grid container spacing={3}> */}
             <Grid item xs={12} md={6} lg={4}>
               <MDBox mb={3}>
-                <ReportsBarChart
+                {/* <ReportsBarChart */}
+                {/* <DefaultProjectCard
                   color="info"
                   title="Upload Dataset"
-                  description="Dataset prepared and upated for Model Development"
-                  date="Accpetable filetypes excel and csv format"
-                  chart={reportsBarChartData}
-                />
+                  description="Dataset prepared and upated for Model Development Accpetable filetypes excel and csv format"
+                  //date="Accpetable filetypes excel and csv format"
+                  //chart={reportsBarChartData}
+                  label= "DataSet"
+                /> */}
               </MDBox>
             </Grid>
             </MDBox>
-            {/* <Grid item xs={12} md={6} lg={4}> */}
+            {/* <Grid item xs={12} md={6} lg={4}>
             
       {/* <MDBox py={3}>
         <Grid container spacing={3}>

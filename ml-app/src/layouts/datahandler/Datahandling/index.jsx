@@ -119,8 +119,8 @@ export const Datahandling = () => {
       const sheet = workbook.Sheets[sheetName];
       const parsedData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
       setData(parsedData);
-      
-      evaluateMissingValues(parsedData);
+      replaceMissingValues(parsedData);
+      //evaluateMissingValues(parsedData);
     } catch (error) {
       setError('Error parsing the file. Please upload a valid file.');
       setData([]);
@@ -150,39 +150,104 @@ export const Datahandling = () => {
     }
   };
 
-  const customStyles = {
-  	header: {
-  		style: {
-  			minHeight: '56px',
-		},
-  	},
-  	headRow: {
-  		style: {
-  			borderTopStyle: 'solid',
-  			borderTopWidth: '1px',
-        fontWeight: 'bold',
-  			borderTopColor: defaultThemes.default.divider.default,
-  		},
-  	},
-  	headCells: {
-  		style: {
-  			'&:not(:last-of-type)': {
-  				borderRightStyle: 'solid',
-  				borderRightWidth: '1px',
-  				borderRightColor: defaultThemes.default.divider.default,
-  			},
-  		},
-  	},
-  	cells: {
-  		style: {
-  			'&:not(:last-of-type)': {
-  				borderRightStyle: 'solid',
-  				borderRightWidth: '1px',
-  				borderRightColor: defaultThemes.default.divider.default,
-  			},
-  		},
-  	},
+  const replaceMissingValues = () => {
+    const newData = [...data];
+    newData.forEach((row, rowIndex) => {
+      row.forEach((cell, cellIndex) => {
+        if (cell === null || cell === undefined || cell === '') {
+          const columnValues = newData.map((r) => r[cellIndex]).filter((val) => val !== null && val !== undefined && val !== '');
+          const sum = columnValues.reduce((acc, val) => acc + parseFloat(val), 0);
+          const mean = sum / columnValues.length;
+          const median = calculateMedian(columnValues);
+          newData[rowIndex][cellIndex] = median; // or you can use mean instead
+        }
+      });
+    });
+    setData(newData);
   };
+
+
+  const calculateMedian = (values) => {
+    const sortedValues = [...values].sort((a, b) => a - b);
+    const mid = Math.floor(sortedValues.length / 2);
+    return sortedValues.length % 2 !== 0 ? sortedValues[mid] : (sortedValues[mid - 1] + sortedValues[mid]) / 2;
+  };
+
+  const customStyles = {
+    header: {
+      style: {
+        minHeight: '56px',
+      },
+    },
+    headRow: {
+      style: {
+        borderTopStyle: 'solid',
+        borderTopWidth: '1px',
+        fontWeight: 'bold',
+        borderTopColor: '#ddd',
+      },
+    },
+    headCells: {
+      style: {
+        '&:not(:last-of-type)': {
+          borderRightStyle: 'solid',
+          borderRightWidth: '1px',
+          borderRightColor: '#ddd',
+        },
+      },
+    },
+    cells: {
+      style: {
+        '&:not(:last-of-type)': {
+          borderRightStyle: 'solid',
+          borderRightWidth: '1px',
+          borderRightColor: '#ddd',
+        },
+      },
+    },
+  };
+  
+  // return (
+  //   <div style={{ padding: '20px' }}>
+  //     <h1 style={{ marginBottom: '20px' }}>Missing Values Evaluator</h1>
+  //     {/* Rest of your component */}
+  //   </div>
+  // );
+  
+
+  // const customStyles = {
+  // 	header: {
+  // 		style: {
+  // 			minHeight: '56px',
+	// 	},
+  // 	},
+  // 	headRow: {
+  // 		style: {
+  // 			borderTopStyle: 'solid',
+  // 			borderTopWidth: '1px',
+  //       fontWeight: 'bold',
+  // 			borderTopColor: defaultThemes.default.divider.default,
+  // 		},
+  // 	},
+  // 	headCells: {
+  // 		style: {
+  // 			'&:not(:last-of-type)': {
+  // 				borderRightStyle: 'solid',
+  // 				borderRightWidth: '1px',
+  // 				borderRightColor: defaultThemes.default.divider.default,
+  // 			},
+  // 		},
+  // 	},
+  // 	cells: {
+  // 		style: {
+  // 			'&:not(:last-of-type)': {
+  // 				borderRightStyle: 'solid',
+  // 				borderRightWidth: '1px',
+  // 				borderRightColor: defaultThemes.default.divider.default,
+  // 			},
+  // 		},
+  // 	},
+  // };
 
 
   const columns = data.length > 0 && Object.keys(data[0]).map((key) => ({
@@ -193,8 +258,12 @@ export const Datahandling = () => {
    
   }));
 
-  
-  console.log(data &&{data});
+  const handleReplaceValues = () => {
+    replaceMissingValues();
+  };
+
+  console.log(data && { data });
+
 
   return (
     <div>
@@ -205,6 +274,7 @@ export const Datahandling = () => {
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
       {data.length > 0 && (
+        <>
         <DataTable
           columns={columns}
           data={data}
@@ -227,11 +297,35 @@ export const Datahandling = () => {
           pagination
           onColumnOrderChange={cols => console.log(cols)}
           customStyles={customStyles}
-          
-        />
-      )}
-      {missingValues.length > 0 && (
+          />
+
+        <button onClick={handleReplaceValues}>Replace Missing Values</button>
+          <div>
+            <h2>Missing Values Information</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Column Name</th>
+                  <th>Missing Values</th>
+                </tr>
+              </thead>
+              <tbody>
+                {missingValues.map((item, index) => (
+                  <tr key={index}>
+                    <td>{item.columnName}</td>
+                    <td>{item.missingCount}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          </>
+)}
+
+
+      {/* {missingValues.length > 0 && (
         <div>
+           <button onClick={handleReplaceValues}>Replace Missing Values</button>
           <h2>Data with Missing Values</h2>
           <table>
             <thead>
@@ -250,10 +344,12 @@ export const Datahandling = () => {
             </tbody>
           </table>
         </div>
-      )}
-    </div>
+      )}  */}
+    </div> 
   );
 };
 
 export default Datahandling;
+
+
 

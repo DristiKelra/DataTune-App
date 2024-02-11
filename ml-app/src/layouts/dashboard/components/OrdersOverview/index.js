@@ -35,7 +35,7 @@ function OrdersOverview() {
     <Card sx={{ height: "100%" }}>
       <MDBox pt={3} px={3}>
       {/* <div className="box"> */}
-      <MDTypography variant="h6" fontWeight="medium">
+      <MDTypography variant="h5" fontWeight="medium">
           React drop files input
         </MDTypography>
         <DropFileInput

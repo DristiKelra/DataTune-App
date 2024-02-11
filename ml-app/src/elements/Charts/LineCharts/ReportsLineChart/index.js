@@ -104,6 +104,7 @@ function ReportsLineChart({ color, title, description, date, chart }) {
 ReportsLineChart.defaultProps = {
   color: "info",
   description: "",
+  
 };
 
 // Typechecking props for the ReportsLineChart

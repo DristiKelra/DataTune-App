@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Grid from "@mui/material/Grid";
 import MDBox from "components/MDBox";
 import Papa from "papaparse";
@@ -14,6 +14,7 @@ import DataViz from "./DataViz"; // Assuming this is the correct import for your
 
 export const Datavisualise = () => {
   const [uploadedData, setUploadedData] = useState(null);
+  const { sales, tasks } = reportsLineChartData;
 
   const handleFileUpload = (file) => {
    
@@ -29,6 +30,9 @@ export const Datavisualise = () => {
     });
   };
 
+  
+  
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -36,7 +40,8 @@ export const Datavisualise = () => {
 
       {/* Add your DataViz component here */}
       <DataViz onDrop={handleFileUpload} />
-
+      
+      {/* {uploadedData && ( */}
       <MDBox mt={4.5}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={4}>
@@ -50,27 +55,35 @@ export const Datavisualise = () => {
               />
             </MDBox>
           </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            <MDBox py={3}>
-              <Grid container spacing={3}>
-                {/* Add your statistics cards here */}
-              </Grid>
-            </MDBox>
+            <Grid item xs={12} md={6} lg={4}>
+              <MDBox mb={3}>
+                <ReportsLineChart
+                  color="success"
+                  title="daily sales"
+                  description={
+                    <>
+                      (<strong>+15%</strong>) increase in today sales.
+                    </>
+                  }
+                  date="updated 4 min ago"
+                  chart={sales}
+                />
+              </MDBox>
+            </Grid>
+            <Grid item xs={12} md={6} lg={4}>
+              <MDBox mb={3}>
+                <ReportsLineChart
+                  color="dark"
+                  title="completed tasks"
+                  description="Last Campaign Performance"
+                  date="just updated"
+                  chart={tasks}
+                />
+              </MDBox>
+            </Grid>
           </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            <MDBox mb={3}>
-              <ReportsLineChart
-                color="dark"
-                title="completed tasks"
-                description="Last Campaign Performance"
-                date="just updated"
-                chart={reportsLineChartData.tasks}
-              />
-            </MDBox>
-          </Grid>
-        </Grid>
-      </MDBox>
-
+        </MDBox>
+      {/* )} */}
       <Footer />
     </DashboardLayout>
   );

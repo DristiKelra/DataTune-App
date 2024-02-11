@@ -5,6 +5,10 @@ from .models import UploadedData
 from django.shortcuts import render
 from DataTune.api.serializers import YourModelSerializer
 
+from django.http import JsonResponse
+import pandas as pd
+from DataTune.functions import preprocess_data  # contains the preprocessed data functions in python
+
 # views.py
 
 from django.http import HttpResponse
@@ -247,9 +251,36 @@ def results(request):
 
 def get_eda_report(request):
     # Read the HTML file
-    with open('.\static\media\EDA_report\pandas_profiling_report_SE_lab1.html', 'r') as file:
+    with open('.\static\media\EDA_report\pandas_profiling_report_Lab2.html', 'r') as file:
         eda_report_content = file.read()
 
     # Return HTML content as response
     return HttpResponse(eda_report_content, content_type='text/html')
 
+
+
+def preprocess_view(request):
+    if request.method == 'POST' and request.FILES['file']:
+        file = request.FILES['file']
+        try:
+            # Try reading as CSV first
+            df = pd.read_csv(file)
+        except pd.errors.ParserError:
+            # If reading as CSV fails, try reading as Excel
+            try:
+                df = pd.read_excel(file)
+            except pd.errors.ParserError:
+                return JsonResponse({'error': 'Invalid file format. Please upload a CSV or Excel file.'})
+        
+        output_data = preprocess_data(df)  # Implement this function using your preprocessing logic
+        return JsonResponse(output_data, safe=False)
+    else:
+        return JsonResponse({'error': 'File not provided or invalid'})
+    
+# Django view function for handling file upload and preprocessing
+def upload_file(request):
+    if request.method == 'POST' and request.FILES['file']:
+        uploaded_file = request.FILES['file']
+        df = preprocess_data(uploaded_file)
+        # Return a response or render a template with the preprocessed data
+        return render(request, 'preprocessed_data.html', {'df': df})
