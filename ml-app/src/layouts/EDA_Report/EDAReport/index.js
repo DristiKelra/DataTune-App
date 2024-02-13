@@ -175,11 +175,13 @@ const EDAReportPage = ({ edaReport }) => (
 const ReportSection = ({ title, content }) => (
   <div>
     <h1>{title}</h1>
-    {/* <div>{content}</div> */}
+    <div>{content}</div>
     <div dangerouslySetInnerHTML={{ __html: content }} />
-    <iframe title={`EDA Report - ${title}`} srcDoc={content} width="100%" height="500px" />
+    <iframe title={`EDA Report - ${title}`} content={`EDA Report - ${content}`}srcDoc={content} width="100%" height="500px" />
   </div>
 );
+
+
 
 const EDAReport = () => {
   const [edaReport, setEdaReport] = useState('');
@@ -215,6 +217,15 @@ const EDAReport = () => {
     fetchReport();
   }, []);
 
+  // const parseFirstSection = (htmlContent) => {
+  //   const tempElement = document.createElement('div');
+  //   tempElement.innerHTML = htmlContent;
+  //   const firstSectionHTML = tempElement.querySelector('.section-items').innerHTML;
+  //   return firstSectionHTML;
+  // };
+  
+  // const firstSectionHTML = parseFirstSection(edaReport);
+
   const exportToHTML = () => {
     const blob = new Blob([edaReport], { type: 'text/html' });
     const link = document.createElement('a');
@@ -226,24 +237,26 @@ const EDAReport = () => {
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      <MDBox p={3} border="1px solid #ccc" borderRadius="5px" position="relative">
-        <MDBox>
-          <MDButton onClick={exportToHTML} style={{ cursor: 'pointer' }}>
+      <MDBox p={3} border="1px solid #ccc" borderRadius="5px" position="relative" >
+        <MDBox display="flex" justifyContent="flex-end">
+          <MDButton onClick={exportToHTML} style={{ cursor: 'pointer' }} variant= 'gradient' color= 'info'>
             Export as HTML
           </MDButton>
         </MDBox>
         {loading && <p>Loading...</p>}
         {error && <p style={{ color: 'red' }}>{error}</p>}
         {!loading && !error && (
-          <MDBox p={3} border="1px solid #ccc" borderRadius="5px" position="relative">
           <iframe title="EDA Report" srcDoc={edaReport} width="100%" height="500px" />
-        </MDBox>
+          )}
+          {/*<MDBox p={3} border="1px solid #ccc" borderRadius="5px" position="relative">
+          
+         </MDBox> 
           // <>
           //   {reportParts.map((part, index) => (
           //     <ReportSection key={index} title={part.title} content={part.content} />
           //   ))}
-          // </>
-        )}
+          // </>*/}
+       
       </MDBox>
       <Footer />
     </DashboardLayout>

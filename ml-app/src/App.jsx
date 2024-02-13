@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import { useState } from 'react'
 //import { Navbar } from "./component/Navbar";
 // import { Header } from "./component/Header";
+import { FileProvider } from 'layouts/Filecontext';
 import { Navbar, Header, Sidebar } from "./elements";
 import Sidenav from "./elements/Sidenav";
 //import Home from './Home'
@@ -194,7 +195,7 @@ function App() {
     //     <Route path="/Data" element={<Data/>} />
     //     <Route path="/Signin" element={<Signin/>} />
     //   </Routes>
-     
+    <FileProvider>
     <CacheProvider value={rtlCache}>
       <ThemeProvider theme={darkMode ? themeDarkRTL : themeRTL}>
         <CssBaseline />
@@ -219,8 +220,10 @@ function App() {
         </Routes>
       </ThemeProvider>
     </CacheProvider>
+    </FileProvider>
     // </div>
     ) : ( 
+    <FileProvider>
     <ThemeProvider theme={darkMode ? themeDark : theme}>
       <CssBaseline />
       {layout === "dashboard" && (
@@ -243,6 +246,7 @@ function App() {
         <Route path="*" element={<Navigate to="/dashboard" />} />
       </Routes>
     </ThemeProvider>
+    </FileProvider>
     
   );
 }

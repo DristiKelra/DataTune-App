@@ -22,11 +22,14 @@ import DropFileInput from "../DataUpload/DropFileInput";
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
+import { useFile} from "layouts/Filecontext"
 
 // Material Dashboard 2 React example components
 import TimelineItem from "elements/Timeline/TimelineItem";
 
 function OrdersOverview() {
+  const { setFile } = useFile();
+  //const [fileName, setFileName] = useState('');
   const onFileChange = (files) => {
     console.log(files);
 }
@@ -36,7 +39,7 @@ function OrdersOverview() {
       <MDBox pt={3} px={3}>
       {/* <div className="box"> */}
       <MDTypography variant="h5" fontWeight="medium">
-          React drop files input
+          Drop files input
         </MDTypography>
         <DropFileInput
           onFileChange={(files) => onFileChange(files)}

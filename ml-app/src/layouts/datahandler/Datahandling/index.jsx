@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import DataTable , {Alignment, createTheme, defaultThemes}from 'react-data-table-component';
+import MDButton from 'components/MDButton';
+import {useFile} from "layouts/Filecontext";
+import Projects from './Projects';
+//import DataTable from 'elements/Tables/DataTable';
+import data from './Projects/data';
 
 //import CSVDataTable from "./CSVDataTable";
 
 import axios from 'axios';
 
 import * as XLSX from 'xlsx';
+import MDBox from 'components/MDBox';
+import { Card } from '@mui/material';
+import MDTypography from 'components/MDTypography';
 
 export const Datahandling = () => {
+  //const { file } = useFile();
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState('');
   const [data, setData] = useState([]);
@@ -16,6 +25,7 @@ export const Datahandling = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [csrfToken, setCsrfToken] = useState('');
+  //const { columns1, rows } = data();
 
   useEffect(() => {
     const fetchCsrfToken = async () => {
@@ -119,8 +129,8 @@ export const Datahandling = () => {
       const sheet = workbook.Sheets[sheetName];
       const parsedData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
       setData(parsedData);
-      replaceMissingValues(parsedData);
-      //evaluateMissingValues(parsedData);
+      //replaceMissingValues(parsedData);
+      evaluateMissingValues(parsedData);
     } catch (error) {
       setError('Error parsing the file. Please upload a valid file.');
       setData([]);
@@ -150,6 +160,19 @@ export const Datahandling = () => {
     }
   };
 
+  const handleReplaceValues = () => {
+    const userInput = prompt('Enter "mean" or "median" to replace missing values:');
+    if (userInput) {
+      if (userInput.toLowerCase() === 'mean') {
+        replaceMissingValues('mean');
+      } else if (userInput.toLowerCase() === 'median') {
+        replaceMissingValues('median');
+      } else {
+        alert('Invalid input. Please enter "mean" or "median".');
+      }
+    }
+  };
+  
   const replaceMissingValues = () => {
     const newData = [...data];
     newData.forEach((row, rowIndex) => {
@@ -258,23 +281,73 @@ export const Datahandling = () => {
    
   }));
 
-  const handleReplaceValues = () => {
-    replaceMissingValues();
-  };
+  // const handleReplaceValues = () => {
+  //   replaceMissingValues();
+  // };
 
   console.log(data && { data });
 
 
   return (
     <div>
+      {file && <p>Uploaded file: {file.name}</p>}
       <h1>Missing Values Evaluator</h1>
       <input type="file" accept=".csv, .xlsx, .xls" onChange={handleFileUpload} />
       {/* <a href="{% url 'file-upload' %}">Upload a File</a> */}
-      <button  onClick={handleUpload}> Upload File</button>
+      <MDButton  onClick={handleUpload} color ="info"> Upload File</MDButton>
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
       {data.length > 0 && (
         <>
+      <Card> 
+        
+      <MDBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
+      <MDBox>
+          <MDTypography variant="h6" gutterBottom>
+            Missing Values Information
+          </MDTypography>
+          </MDBox>
+          <MDBox  display="flex" justifyContent="flex-end">
+          <MDButton onClick={handleReplaceValues} color ="success">Replace Missing Values</MDButton>
+          </MDBox>
+          
+          </MDBox>
+          <DataTable
+          columns={[
+            {
+              name: 'Column Name',
+              selector: 'columnName',
+              sortable: true,
+            },
+            {
+              name: 'Missing Values',
+              selector: 'missingCount',
+              sortable: true,
+            },
+          ]}
+          data={missingValues}
+          highlightOnHover
+          responsive={true}
+          striped={false}
+          subHeaderAlign="right"
+          fixedHeader={true}
+          noTableHead={false}
+          fixedHeaderScrollHeight="1000px"
+          pagination
+        />
+        </Card>
+        <br></br>
+      <Card>
+      <MDBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
+      <MDBox>
+          <MDTypography variant="h6" gutterBottom>
+            Uploaded Data Table
+          </MDTypography>
+          </MDBox>
+         {/* <MDBox  display="flex" justifyContent="flex-end">
+          <MDButton onClick={handleReplaceValues} color ="success">Replace Missing Values</MDButton>
+          </MDBox> */}
+          </MDBox>
         <DataTable
           columns={columns}
           data={data}
@@ -298,27 +371,7 @@ export const Datahandling = () => {
           onColumnOrderChange={cols => console.log(cols)}
           customStyles={customStyles}
           />
-
-        <button onClick={handleReplaceValues}>Replace Missing Values</button>
-          <div>
-            <h2>Missing Values Information</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>Column Name</th>
-                  <th>Missing Values</th>
-                </tr>
-              </thead>
-              <tbody>
-                {missingValues.map((item, index) => (
-                  <tr key={index}>
-                    <td>{item.columnName}</td>
-                    <td>{item.missingCount}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+        </Card>
           </>
 )}
 
