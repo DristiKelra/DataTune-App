@@ -4,13 +4,13 @@ from rest_framework.response import Response
 from .models import UploadedData
 from django.shortcuts import render
 from DataTune.api.serializers import YourModelSerializer
-
+import subprocess
 from django.http import JsonResponse
 import pandas as pd
 from DataTune.functions import preprocess_data  # contains the preprocessed data functions in python
 
 # views.py
-
+from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render
 import pandas as pd  
@@ -248,14 +248,72 @@ def results(request):
     return render(request, 'result.html', context)
 
 
+# def get_latest_file(directory):
+#     """Return the path of the latest file in the directory."""
+#     """Return the path of the latest file in the directory."""
+#     if not os.path.exists(directory):
+#         return None  # Return None if the directory does not exist
+    
+#     files = os.listdir(directory)
+#     if not files:
+#         return None
+#     latest_file = max(files, key=lambda f: os.path.getmtime(os.path.join(directory, f)))
+#     return os.path.join(directory, latest_file)
+
+def get_latest_file(directory):
+    """Return the path of the latest file in the directory."""
+    if not os.path.exists(directory):
+        try:
+            os.makedirs(directory)  # Create the directory if it doesn't exist
+        except OSError as e:
+            print(f"Error creating directory: {e}")
+            return None  # Return None if unable to create the directory
+    
+    files = os.listdir(directory)
+    if not files:
+        return None
+    
+    latest_file = max(files, key=lambda f: os.path.getmtime(os.path.join(directory, f)))
+    return os.path.join(directory, latest_file)
+
+
+
 
 def get_eda_report(request):
     # Read the HTML file
-    with open('.\static\media\EDA_report\pandas_profiling_report_Lab2.html', 'r') as file:
-        eda_report_content = file.read()
+    notebook_file_path = os.path.join(settings.BASE_DIR, 'static\jupyter notebook', 'Django_UploadedData.ipynb')
+    try:
+        subprocess.run(['jupyter', 'nbconvert', '--execute', '--to', 'html', notebook_file_path, '--ExecutePreprocessor.timeout=600', f'--NotebookApp.iopub_data_rate_limit=1.0e10'])
+        eda_report_directory = os.path.join(settings.EDA_REPORT_DIRECTORY, 'EDA_report')
+        latest_report_path = get_latest_file(eda_report_directory)
+    
+        if latest_report_path:
+            # Read the latest HTML file
+            with open(latest_report_path, 'r') as file:
+                eda_report_content = file.read()
+            return HttpResponse(eda_report_content, content_type='text/html')
+        else:
+            return HttpResponse("Error: EDA report file not found", status=500)
+    except Exception as e:
+        # Log the exception for debugging purposes
+        print(f"Error fetching EDA report: {e}")
+        return HttpResponse("Error: Failed to fetch EDA report", status=500)
 
-    # Return HTML content as response
-    return HttpResponse(eda_report_content, content_type='text/html')
+#     if latest_report_path:
+#         # Read the latest HTML file
+#         with open(latest_report_path, 'r') as file:
+#             eda_report_content = file.read()
+#     # with open('.\static\media\EDA_report\pandas_profiling_report_Lab2.html', 'r') as file:
+#     #     eda_report_content = file.read()
+
+#     # Return HTML content as response
+#         return HttpResponse(eda_report_content, content_type='text/html')
+#     else:
+#             return HttpResponse("Error: EDA report file not found", status=500)
+# except Exception as e:
+#         # Log the exception for debugging purposes
+#     print(f"Error fetching EDA report: {e}")
+#     return HttpResponse("Error: Failed to fetch EDA report", status=500)
 
 
 

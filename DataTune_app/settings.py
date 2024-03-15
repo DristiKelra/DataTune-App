@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'website',
     'DataTune',
     'rest_framework',
     'corsheaders',
@@ -137,6 +136,13 @@ STATIC_URL = 'static/'
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = BASE_DIR / 'media'
+
+EDA_REPORT_DIRECTORY = os.path.join(BASE_DIR, 'static', 'media')
+
+
+# EDA_REPORT_DIRECTORY =[
+#         os.path.join(BASE_DIR, 'static/media/EDA_report')
+# ] 
 
 STATICFILES_DIRS= [
      os.path.join(BASE_DIR, 'ml-app/build/static')
