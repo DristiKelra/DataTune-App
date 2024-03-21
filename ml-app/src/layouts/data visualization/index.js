@@ -314,6 +314,7 @@
 import React, { useState, useEffect } from 'react';
 import Chart from 'chart.js/auto';
 import Papa from 'papaparse';
+import {useFile} from "layouts/Filecontext";
 import * as XLSX from 'xlsx';
 import { useDropzone } from 'react-dropzone';
 import DashboardLayout from 'elements/LayoutContainers/DashboardLayout';
@@ -322,15 +323,15 @@ import Footer from 'elements/Footer';
 import MDButton from 'components/MDButton';
 
 export const Datavisualise = () => {
-  const [uploadedData, setUploadedData] = useState(null);
   const [fileData, setFileData] = useState([]);
   const [selectedXAxis, setSelectedXAxis] = useState('');
   const [selectedYAxis, setSelectedYAxis] = useState('');
   const [chart, setChart] = useState(null);
+  const {file, setFile} = useFile();
 
-  const handleFileUpload = (file) => {
-    extractDataFromCSV(file, setUploadedData);
-  };
+  // const handleFileUpload = (file) => {
+  //   extractDataFromCSV(file, setUploadedData);
+  // };
 
   const extractDataFromCSV = (file, onDataExtracted) => {
     Papa.parse(file, {
@@ -341,24 +342,73 @@ export const Datavisualise = () => {
       },
     });
   };
-
   const handleDrop = (acceptedFiles) => {
-    const fileReader = new FileReader();
-    fileReader.onload = (e) => {
-      const binaryString = e.target.result;
-      const workbook = XLSX.read(binaryString, { type: 'binary' });
-      const sheetName = workbook.SheetNames[0];
-      const sheet = workbook.Sheets[sheetName];
-      const data = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-      setFileData(data);
-    };
-    fileReader.readAsBinaryString(acceptedFiles[0]);
+    const file = acceptedFiles[0];
+    setFile(file); // Update file in global context; remove this if you want to keep it local
+    if (file.type.includes("csv")) {
+      // Assuming CSV parsing logic is similar and should set data for charting
+      Papa.parse(file, {
+        complete: (result) => {
+          setFileData(result.data);
+        },
+        header: true
+      });
+    } else {
+      // For Excel files
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const binaryString = e.target.result;
+        const workbook = XLSX.read(binaryString, {type: 'binary'});
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+        const data = XLSX.utils.sheet_to_json(sheet, {header: 1});
+        setFileData(data);
+      };
+      reader.readAsBinaryString(file);
+    }
   };
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: handleDrop,
-    accept: '.csv, .xls, .xlsx',
+    accept: '.csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
   });
+
+  useEffect(() => {
+    // If there's a file from the context, use it directly
+    if (file && !fileData.length) {
+      handleDrop([file]);
+    }
+  }, [file]);
+
+  // useEffect(() => {
+  //   // Automatically parse and set data when file changes
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onload = (e) => {
+  //       const acceptedFiles = e.target.result;
+  //       handleDrop(acceptedFiles);
+  //     };
+  //     reader.readAsBinaryString(file);
+  //   }
+  // }, [file]);
+
+  // const handleDrop = (acceptedFiles) => {
+  //   const fileReader = new FileReader();
+  //   fileReader.onload = (e) => {
+  //     const binaryString = e.target.result;
+  //     const workbook = XLSX.read(binaryString, { type: 'binary' });
+  //     const sheetName = workbook.SheetNames[0];
+  //     const sheet = workbook.Sheets[sheetName];
+  //     const data = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+  //     setFileData(data);
+  //   };
+  //   fileReader.readAsBinaryString(acceptedFiles[0]);
+  // };
+
+  // const { getRootProps, getInputProps } = useDropzone({
+  //   onDrop: handleDrop,
+  //   accept: '.csv, .xls, .xlsx',
+  // });
 
   const renderChart = () => {
     const ctx = document.getElementById('myChart').getContext('2d');

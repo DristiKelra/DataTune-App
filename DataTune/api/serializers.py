@@ -6,5 +6,3 @@ class YourModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = UploadedData
         fields = '__all__'
-
-

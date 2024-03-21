@@ -5,8 +5,8 @@ import { useState } from 'react'
 //import { Navbar } from "./component/Navbar";
 // import { Header } from "./component/Header";
 import { FileProvider } from 'layouts/Filecontext';
-import { Navbar, Header, Sidebar } from "./elements";
-import Sidenav from "./elements/Sidenav";
+//import { Navbar, Header, Sidebar } from "elements";
+import Sidenav from "elements/Sidenav";
 //import Home from './Home'
 import { About, Contact, Home, Services, Data, Login, Signin, Datahandling} from "./Pages";
 

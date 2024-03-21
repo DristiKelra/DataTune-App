@@ -2,12 +2,6 @@ import React, { useState, useEffect } from 'react';
 import DataTable , {Alignment, createTheme, defaultThemes}from 'react-data-table-component';
 import MDButton from 'components/MDButton';
 import {useFile} from "layouts/Filecontext";
-import Projects from './Projects';
-//import DataTable from 'elements/Tables/DataTable';
-import data from './Projects/data';
-
-//import CSVDataTable from "./CSVDataTable";
-
 import axios from 'axios';
 
 import * as XLSX from 'xlsx';
@@ -17,7 +11,7 @@ import MDTypography from 'components/MDTypography';
 
 export const Datahandling = () => {
   //const { file } = useFile();
-  const [file, setFile] = useState(null);
+  const {file} = useFile();
   const [fileName, setFileName] = useState('');
   const [data, setData] = useState([]);
   const [missingValues, setMissingValues] = useState([]);
@@ -43,7 +37,7 @@ export const Datahandling = () => {
   const handleFileUpload = (event) => {
     const uploadedFile = event.target.files[0];
     if (uploadedFile) {
-      setFile(uploadedFile);
+      //setFile(uploadedFile);
       setFileName(uploadedFile.name);
       console.log('File Name:', uploadedFile.name);
       const reader = new FileReader();
@@ -140,7 +134,18 @@ export const Datahandling = () => {
     }
   };
 
-  
+  useEffect(() => {
+    // Automatically parse and set data when file changes
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const content = e.target.result;
+        parseData(content);
+      };
+      reader.readAsBinaryString(file);
+    }
+  }, [file]);
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       setPending(false);

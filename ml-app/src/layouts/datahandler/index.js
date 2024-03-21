@@ -23,20 +23,13 @@ import MDBox from "components/MDBox";
 import DashboardLayout from "elements/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "elements/Navbars/DashboardNavbar";
 import Footer from "elements/Footer";
-import ReportsBarChart from "elements/Charts/BarCharts/ReportsBarChart";
-//import ReportsLineChart from "elements/Charts/LineCharts/ReportsLineChart";
-//import ComplexStatisticsCard from "elements/Cards/StatisticsCards/ComplexStatisticsCard";
 
-// Data
-import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
 import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
 
-// Dashboard components
-//import Projects from "layouts/dashboard/components/Projects";
-//import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
+
 import Datahandling from "layouts/datahandler/Datahandling";
 import DefaultProjectCard from "elements/Cards/ProjectCards/DefaultProjectCard";
-//import handleFileUpload from "layouts/datahandler/Datahandling"
+
 
 function datahandler() {
   const { sales, tasks } = reportsLineChartData;

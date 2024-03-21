@@ -80,17 +80,10 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'DataTune_app.wsgi.application'
-
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+
 
 
 # Password validation
@@ -129,9 +122,12 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-# STATICFILES_DIRS = [
-#     BASE_DIR / "static",
-# ]
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 MEDIA_URL = '/media/'
 
@@ -149,22 +145,22 @@ STATICFILES_DIRS= [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',  # Adjust this to your React frontend URL
-    # Add more allowed origins if needed
+    'http://localhost:3000',  # Adjusted according to your React frontend URL
+    
 ]
 
 #SHELL_PLUS = "ipython"
 SHELL_PLUS_DJANGO_MANAGEMENT_SHELL = 'ipython'
 SHELL_PLUS_POST_IMPORTS = [
     ('DataTune.models', '*'),
-    # other imports as needed
+
 ]
 SHELL_PLUS = {
     'notebook': {
         'kernel_name': 'python3',
         'interface': 'jupyter',
     },
-    # Other configurations...
+
 }
 
 # NOTEBOOK_ARGUMENTS = [

@@ -37,14 +37,12 @@ function OrdersOverview() {
   return (
     <Card sx={{ height: "100%" }}>
       <MDBox pt={3} px={3}>
-      {/* <div className="box"> */}
       <MDTypography variant="h5" fontWeight="medium">
           Drop files input
         </MDTypography>
         <DropFileInput
           onFileChange={(files) => onFileChange(files)}
         />
-        {/* </div> */}
       </MDBox>
        
       {/* <MDBox pt={3} px={3}>
