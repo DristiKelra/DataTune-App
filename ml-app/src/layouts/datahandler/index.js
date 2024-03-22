@@ -24,15 +24,13 @@ import DashboardLayout from "elements/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "elements/Navbars/DashboardNavbar";
 import Footer from "elements/Footer";
 
-import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
-
 
 import Datahandling from "layouts/datahandler/Datahandling";
 import DefaultProjectCard from "elements/Cards/ProjectCards/DefaultProjectCard";
 
 
 function datahandler() {
-  const { sales, tasks } = reportsLineChartData;
+
   
 
   return (

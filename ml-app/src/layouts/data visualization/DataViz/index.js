@@ -19,21 +19,6 @@ export const DataViz = ({ onDrop }) => {
     accept: '.csv',
     onDrop: handleDrop,
   });
-  // const handleDrop = (acceptedFiles) => {
-  //   // Do something with the accepted files (e.g., store them in state)
-  //   setFileData(acceptedFiles);
-  //   onDrop(acceptedFiles); // Pass the dropped files to the parent component if needed
-  
-  //   // Parse the CSV file
-  //   acceptedFiles.forEach((file) => {
-  //     Papa.parse(file, {
-  //       complete: (result) => {
-  //         setFileData(result.data);
-  //       },
-  //       header: true, // Assuming the first row is the header
-  //     });
-  //   });
-  // };
 
   const dropzoneProps = useDropzone({
     accept: '.csv',

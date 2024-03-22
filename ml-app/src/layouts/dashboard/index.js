@@ -23,16 +23,13 @@ import MDBox from "components/MDBox";
 import DashboardLayout from "elements/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "elements/Navbars/DashboardNavbar";
 import Footer from "elements/Footer";
-import ReportsBarChart from "elements/Charts/BarCharts/ReportsBarChart";
-import ReportsLineChart from "elements/Charts/LineCharts/ReportsLineChart";
-import ComplexStatisticsCard from "elements/Cards/StatisticsCards/ComplexStatisticsCard";
+
 
 // Data
-import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
-import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
+
 
 // Dashboard components
-import Projects from "layouts/dashboard/components/Projects";
+
 import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 import DefaultProjectCard from "elements/Cards/ProjectCards/DefaultProjectCard";
 
@@ -41,79 +38,15 @@ import Dataanalysis from "assets/images/Dataanalysis.jpg";
 import Datavisualization from "assets/images/datavisualization.jpg";
 import dataupload from "assets/images/dataupload.jpg";
 import datahandling from "assets/images/datahandling.jpg";
-import team1 from "assets/images/team-1.jpg";
-import team2 from "assets/images/team-2.jpg";
-import team3 from "assets/images/team-3.jpg";
-import team4 from "assets/images/team-4.jpg";
+
 
 function Dashboard() {
-  const { sales, tasks } = reportsLineChartData;
+ 
 
   return (
     <DashboardLayout>
       <DashboardNavbar />
       <MDBox py={3}>
-         {/*<Grid container spacing={3}>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="dark"
-                icon="weekend"
-                title="Data Uploads"
-                //count={281}
-                percentage={{
-                  color: "success",
-                  amount: "+55%",
-                  label: "than lask week",
-                }}
-              />
-            </MDBox>
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                icon="leaderboard"
-                title="Data Visualizations"
-                //count="2,300"
-                percentage={{
-                  color: "success",
-                  amount: "+3%",
-                  label: "than last month",
-                }}
-              />
-            </MDBox>
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="success"
-                icon="store"
-                title="Data Handling"
-                //count="34k"
-                percentage={{
-                  color: "success",
-                  amount: "+1%",
-                  label: "than yesterday",
-                }}
-              />
-            </MDBox>
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="primary"
-                icon="person_add"
-                title="Data Reports"
-                //count="+91"
-                percentage={{
-                  color: "success",
-                  amount: "",
-                  label: "Just updated",
-                }}
-              />
-            </MDBox>
-          </Grid>
-        </Grid> */}
 
         <MDBox>
           <Grid container spacing={3}>

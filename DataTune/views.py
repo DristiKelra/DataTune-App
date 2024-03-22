@@ -247,19 +247,6 @@ def results(request):
 
     return render(request, 'result.html', context)
 
-
-# def get_latest_file(directory):
-#     """Return the path of the latest file in the directory."""
-#     """Return the path of the latest file in the directory."""
-#     if not os.path.exists(directory):
-#         return None  # Return None if the directory does not exist
-    
-#     files = os.listdir(directory)
-#     if not files:
-#         return None
-#     latest_file = max(files, key=lambda f: os.path.getmtime(os.path.join(directory, f)))
-#     return os.path.join(directory, latest_file)
-
 def get_latest_file(directory):
     """Return the path of the latest file in the directory."""
     if not os.path.exists(directory):
@@ -298,24 +285,6 @@ def get_eda_report(request):
         # Log the exception for debugging purposes
         print(f"Error fetching EDA report: {e}")
         return HttpResponse("Error: Failed to fetch EDA report", status=500)
-
-#     if latest_report_path:
-#         # Read the latest HTML file
-#         with open(latest_report_path, 'r') as file:
-#             eda_report_content = file.read()
-#     # with open('.\static\media\EDA_report\pandas_profiling_report_Lab2.html', 'r') as file:
-#     #     eda_report_content = file.read()
-
-#     # Return HTML content as response
-#         return HttpResponse(eda_report_content, content_type='text/html')
-#     else:
-#             return HttpResponse("Error: EDA report file not found", status=500)
-# except Exception as e:
-#         # Log the exception for debugging purposes
-#     print(f"Error fetching EDA report: {e}")
-#     return HttpResponse("Error: Failed to fetch EDA report", status=500)
-
-
 
 def preprocess_view(request):
     if request.method == 'POST' and request.FILES['file']:
