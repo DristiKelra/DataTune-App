@@ -90,7 +90,7 @@ function MaterialUIControllerProvider({ children }) {
   return <MaterialUI.Provider value={value}>{children}</MaterialUI.Provider>;
 }
 
-// Material Dashboard 2 React custom hook for using context
+
 function useMaterialUIController() {
   const context = useContext(MaterialUI);
 

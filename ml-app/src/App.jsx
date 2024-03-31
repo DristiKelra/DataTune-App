@@ -1,18 +1,17 @@
-// import './App.css';
+
 import { Route, Routes } from "react-router-dom";
-//import "./App.css";
+
 import { useState } from 'react'
-//import { Navbar } from "./component/Navbar";
-// import { Header } from "./component/Header";
+
 import { FileProvider } from 'layouts/Filecontext';
-//import { Navbar, Header, Sidebar } from "elements";
+
 import Sidenav from "elements/Sidenav";
-//import Home from './Home'
+
 import { About, Contact, Home, Services, Data, Login, Signin, Datahandling} from "./Pages";
 
 import { useEffect, useMemo } from "react";
 
-// react-router components
+
 import { Navigate, useLocation } from "react-router-dom";
 
 // @mui material components
@@ -20,18 +19,14 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Icon from "@mui/material/Icon";
 
-// Material Dashboard 2 React components
+
 import MDBox from "./components/MDBox";
 
-// Material Dashboard 2 React example components
-//import Sidenav from "elements/Sidenav";
 import Configurator from "elements/Configurator";
 
-// Material Dashboard 2 React themes
 import theme from "./assets/theme";
 import themeRTL from "./assets/theme/theme-rtl";
 
-// Material Dashboard 2 React Dark Mode themes
 import themeDark from "./assets/theme-dark";
 import themeDarkRTL from "./assets/theme-dark/theme-rtl";
 
@@ -40,7 +35,7 @@ import rtlPlugin from "stylis-plugin-rtl";
 import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 
-// Material Dashboard 2 React routes
+
 import routes from "./routes";
 
 // Material Dashboard 2 React contexts
@@ -50,30 +45,6 @@ import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "./
 import brandWhite from "./assets/images/logo-ct.png";
 import brandDark from "./assets/images/logo-ct-dark.png";
 
-
-
-    
-//   // return (
-//   //   <div className="App">
-//   //     <header className="App-header">
-//   //       <img src={logo} className="App-logo" alt="logo" />
-//   //       <p>
-//   //         Edit <code>src/App.js</code> and save to reload.
-//   //       </p>
-//   //       <a
-//   //         className="App-link"
-//   //         href="https://reactjs.org"
-//   //         target="_blank"
-//   //         rel="noopener noreferrer"
-//   //       >
-//   //         Learn React
-//   //       </a>
-//   //     </header>
-//   //   </div>
-//   // );
-// }
-
-// export default App;
 
 
 function App() {
@@ -184,17 +155,7 @@ function App() {
   );
 
   return direction === "rtl" ? (
-    // <div className="App">
-    //   <Navbar />
-    //   <Routes>
-    //     {/* <Route path="/" element={<Home />} /> */}
-    //     <Route path="/about" element={<About />} />
-    //     <Route path="/services" element={<Services />} />
-    //     <Route path="/contact" element={<Datahandling />} />
-    //     <Route path="/Login" element={<Login />} />
-    //     <Route path="/Data" element={<Data/>} />
-    //     <Route path="/Signin" element={<Signin/>} />
-    //   </Routes>
+   
     <FileProvider>
     <CacheProvider value={rtlCache}>
       <ThemeProvider theme={darkMode ? themeDarkRTL : themeRTL}>
@@ -252,24 +213,3 @@ function App() {
 }
 
 export default App;
-
-  
-// return (
-//   <div className="App">
-//     <Navbar />
-//     <Routes>
-//       {/* <Route path="/" element={<Home />} /> */}
-//       <Route path="/about" element={<About />} />
-//       <Route path="/services" element={<Services />} />
-//       <Route path="/contact" element={<Datahandling />} />
-//       <Route path="/Login" element={<Login />} />
-//       <Route path="/Data" element={<Data/>} />
-//       <Route path="/Signin" element={<Signin/>} />
-//     </Routes>
-//     {/* <div className='grid-container'>
-//     <Header OpenSidebar={OpenSidebar}/>
-//     <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar}/>
-//     {/* <data_handling></data_handling> 
-//   </div> */}
-//   </div>
-// );

@@ -106,29 +106,6 @@ function EDA_Report() {
 
   return (
     <EDAReport/>
-    // <DashboardLayout>
-    //   <DashboardNavbar />
-    //   <MDBox py={3}>
-    //     <Card>
-    //       <MDBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-    //         <MDBox>
-    //           <Typography variant="h6" gutterBottom>
-    //             Exploratory Data Analysis Report
-    //           </Typography>
-    //         </MDBox>
-    //         <MDBox>
-    //           <button onClick={exportToHTML} style={{ cursor: 'pointer' }}>
-    //             Export as HTML
-    //           </button>
-    //         </MDBox>
-    //       </MDBox>
-    //     </Card>
-    //   </MDBox>
-    //   {loading && <p>Loading...</p>}
-    //   {error && <p style={{ color: 'red' }}>{error}</p>}
-    //   {!loading && !error && <EDAReport edaReport={edaReport} />}
-    //   <Footer />
-    // </DashboardLayout>
   );
 }
 

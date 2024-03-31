@@ -2,26 +2,30 @@
 from rest_framework import generics
 from rest_framework.response import Response
 from .models import UploadedData
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from DataTune.api.serializers import YourModelSerializer
 import subprocess
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 import pandas as pd
 from DataTune.functions import preprocess_data  # contains the preprocessed data functions in python
+from rest_framework.views import APIView
+from rest_framework.parsers import FileUploadParser
 
-# views.py
+from rest_framework import status
+
+from .serializers import UploadedFileSerializer
+
 from django.conf import settings
-from django.http import HttpResponse
-from django.shortcuts import render
 import pandas as pd  
-
-from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
-
-
-from django.http import JsonResponse
 from django.middleware.csrf import get_token
+
+# data visualization import 
+from collections import Counter
+from django.core.files.storage import FileSystemStorage
+import os
+from django.contrib import messages
 
 def get_csrf_token(request):
     csrf_token = get_token(request)
@@ -42,32 +46,6 @@ class HandleMissingValuesView(generics.UpdateAPIView):
         serializer.save()  # Save updated data
         return Response(serializer.data)
 
-
-
-# @csrf_exempt
-# def handle_uploaded_file(request):
-#     if request.method == 'POST':
-#         uploaded_file = request.FILES.get('file')
-#         if uploaded_file:
-#             uploaded_file.read()
-#             # Process the uploaded file as needed
-#             # You can access file content using: uploaded_file.read()
-#             return JsonResponse({'message': 'File uploaded successfully'})
-#         else:
-#             return JsonResponse({'message': 'No file provided'}, status=400)
-#     else:
-#         return JsonResponse({'message': 'Invalid request method'}, status=405)
-
-
-# views.py
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.parsers import FileUploadParser
-from .models import UploadedData
-
-from rest_framework import status
-
-from .serializers import UploadedFileSerializer
 
 class FileUploadView(APIView):
     parser_classes = (FileUploadParser,)
@@ -90,11 +68,6 @@ class FileUploadView(APIView):
 
         return Response({'message': 'File uploaded successfully','data': serializer.data},status=status.HTTP_201_CREATED)
 
-        # Process the file as needed (e.g., save to database, perform operations)
-        # Return a response as needed
-        return Response({'message': 'File uploaded successfully','data': serializer.data})
-
-
 class UploadedFileListView(APIView):
     def get(self, request, *args, **kwargs):
         uploaded_files = UploadedData.objects.all()
@@ -109,21 +82,10 @@ def list_uploaded_files(request):
 
 
 
-
-# Uploaded File as a html
-
-
-# Uploaded File as a html
-from django.http import HttpResponse
-from django.shortcuts import render
-import pandas as pd  # Assuming you have pandas installed
-
-
 def visualize_file_content(request, file_path):
     try:
         # Read the file content using pandas or any other appropriate library
-        df = pd.read_csv(file_path)  # Change this based on your file type
-
+        df = pd.read_csv(file_path)  
         # Convert the DataFrame to HTML for visualization
         file_content_html = df.to_html(index=False)
 
@@ -135,15 +97,7 @@ def visualize_file_content(request, file_path):
 
 
     
-#Data Visualization
-from collections import Counter
 
-from django.shortcuts import render, redirect
-from django.core.files.storage import FileSystemStorage
-import os
-
-from django.contrib import messages
-#dict ={}
 def index(request):
 
     context = {}
@@ -187,12 +141,8 @@ def index(request):
     return  render(request, 'index.html', context)
 
 
-            #project_data.csv
 def readfile(filename):
 
-    #we have to create those in order to be able to access it around
-    # use panda to read the file because i can use DATAFRAME to read the file
-    #column;culumn2;column
     global rows,columns,data,my_file,missing_values
      #read the missing data - checking if there is a null
     missingvalue = ['?', '0', '--']

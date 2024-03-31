@@ -5,7 +5,6 @@ import { useFile } from 'layouts/Filecontext';
 
 import './drop-file-input.css';
 import { ImageConfig } from 'config/ImageConfig';
-//import { ImageConfig } from '../../config/ImageConfig'; 
 import uploadImg from 'assets/cloud-upload-regular-240.png';
 
 const DropFileInput = props => {

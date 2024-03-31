@@ -145,11 +145,10 @@ STATICFILES_DIRS= [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',  # Adjusted according to your React frontend URL
+    'http://localhost:3000',  # Adjusted according to React frontend URL
     
 ]
 
-#SHELL_PLUS = "ipython"
 SHELL_PLUS_DJANGO_MANAGEMENT_SHELL = 'ipython'
 SHELL_PLUS_POST_IMPORTS = [
     ('DataTune.models', '*'),
@@ -162,33 +161,6 @@ SHELL_PLUS = {
     },
 
 }
-
-# NOTEBOOK_ARGUMENTS = [
-#     '--ip', '0.0.0.0',
-#     '--port', '8888',
-# ]
-# IPYTHON_KERNEL_DISPLAY_NAME = 'Django Kernel'
-
-# try:
-#     import jupyterlab
-#     NOTEBOOK_DEFAULT_URL = '/lab'  # Using JupyterLab
-# except ImportError:
-#     NOTEBOOK_DEFAULT_URL = '/tree'  # Using Jupyter
-
-# NOTEBOOK_DIR = BASE_DIR / "notebooks"
-
-# NOTEBOOK_ARGUMENTS = [
-#     '--ip', '0.0.0.0',
-#     '--port', '8888',
-#     '--notebook-dir', NOTEBOOK_DIR,
-#     '--NotebookApp.default_url', NOTEBOOK_DEFAULT_URL,
-# ]
-# IPYTHON_KERNEL_DISPLAY_NAME = 'Django Kernel'
-
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
-
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

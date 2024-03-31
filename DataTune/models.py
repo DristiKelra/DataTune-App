@@ -4,7 +4,6 @@ from django.db import models
 class UploadedData(models.Model):
     file = models.FileField(upload_to='uploads/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
-    # Add more fields as needed
 
     def __str__(self):
         return f"Uploaded Data {self.file}"
@@ -16,7 +15,6 @@ class UploadedData(models.Model):
 class DataHandleModel(models.Model):
     field1 = models.CharField(max_length=100, null=True, blank=True)
     field2 = models.IntegerField(null=True, blank=True)
-    # Add more fields as per your data
 
 
 class DynamicData(models.Model):

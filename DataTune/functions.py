@@ -16,17 +16,6 @@ def preprocess_data(df):
     
     # Remove punctuation
     df['text_column'] = df['text_column'].apply(lambda x: re.sub(r'[^\w\s]', '', x))
-    
-    # # Remove stopwords
-    # from nltk.corpus import stopwords
-    # stop_words = set(stopwords.words('english'))
-    # df['text_column'] = df['text_column'].apply(lambda x: ' '.join(word for word in x.split() if word not in stop_words))
-    
-    # # Lemmatization
-    # from nltk.stem import WordNetLemmatizer
-    # lemmatizer = WordNetLemmatizer()
-    # df['text_column'] = df['text_column'].apply(lambda x: ' '.join(lemmatizer.lemmatize(word) for word in x.split()))
-    
     # Save the preprocessed data
     df.to_csv('preprocessed_data.csv', index=False)
 
