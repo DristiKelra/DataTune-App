@@ -1,5 +1,7 @@
 # DATATUNE APPLICATION
 DataTune Application is a React, Django and Python based application. 
+![image](https://github.com/DristiKelra/DataTune-App/assets/93253139/e430f86a-9e48-4005-a5b5-4e8170d0038b)
+
 
 ## Special Thanks goes to: 
 •	Creative Tim for the custom developed components that eased the development of the application.
