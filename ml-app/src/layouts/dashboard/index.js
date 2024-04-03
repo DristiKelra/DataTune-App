@@ -1,18 +1,3 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 // @mui material components
 import Grid from "@mui/material/Grid";
 
@@ -25,12 +10,10 @@ import DashboardNavbar from "elements/Navbars/DashboardNavbar";
 import Footer from "elements/Footer";
 
 
-// Data
-
 
 // Dashboard components
 
-import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
+import FileOverview from "layouts/dashboard/components/FileOverview";
 import DefaultProjectCard from "elements/Cards/ProjectCards/DefaultProjectCard";
 
 
@@ -51,7 +34,7 @@ function Dashboard() {
         <MDBox>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={12}>
-              <OrdersOverview />
+              <FileOverview />
             </Grid>
           </Grid>
         </MDBox>
@@ -124,5 +107,4 @@ function Dashboard() {
     </DashboardLayout>
   );
 }
-
 export default Dashboard;

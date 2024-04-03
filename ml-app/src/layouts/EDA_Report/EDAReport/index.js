@@ -5,6 +5,7 @@ import DashboardLayout from 'elements/LayoutContainers/DashboardLayout';
 import DashboardNavbar from 'elements/Navbars/DashboardNavbar';
 import Footer from 'elements/Footer';
 import MDButton from 'components/MDButton';
+import Loader from 'components/Loader';
 
 const EDAReportPage = ({ edaReport }) => (
   <div dangerouslySetInnerHTML={{ __html: edaReport }} />
@@ -59,7 +60,7 @@ const EDAReport = () => {
             Export as HTML
           </MDButton>
         </MDBox>
-        {loading && <p>Loading...</p>}
+        {loading && <Loader/>}
         {error && <p style={{ color: 'red' }}>{error}</p>}
         {!loading && !error && (
           <iframe title="EDA Report" srcDoc={edaReport} width="100%" height="500px" />

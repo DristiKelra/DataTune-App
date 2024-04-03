@@ -48,9 +48,7 @@ export const Datahandling = () => {
       reader.readAsBinaryString(uploadedFile);
     }
   };
-    
-  // console.log('CSRF Token:', csrfToken);
-  // console.log('File Name:', file.name);
+
 
   const handleUpload = async () => {
       const formData = new FormData();
@@ -59,17 +57,10 @@ export const Datahandling = () => {
       try {
         const response = await axios.post('http://127.0.0.1:8000/api/upload/', formData, {
           headers: {
-            // 'Content-Disposition': `attachment; filename="${file.name}"`,
             'Content-Disposition': `attachment; filename="${fileName}"`,
-            //'Content-Disposition': 'attachment; filename="' + {handleFileUpload}+ '"',  // Use single or double quotes
             'X-CSRFToken': csrfToken,
-            //'Content-Type': 'multipart/form-data',
           },
         });
-        
-        //setFile(handleFileUpload.uploadedFile)
-          
-          
           const result = response.data;
           console.log(result);
 
@@ -85,35 +76,6 @@ export const Datahandling = () => {
 
 
 
-
-  // const handleUpload = async () => {
-  //     const formData = new FormData();
-  //     formData.append('file', file);
-
-  //     try {
-  //         const response = await axios.post('http://127.0.0.1:8000/api/upload/') 
-  //         //{
-  //         //     headers: {
-  //         //         'Content-Disposition': `attachment; filename=${file.name}`,
-  //         //     },
-  //         // });
-
-  //         const result = response.data;
-  //         console.log(result);
-
-  //         // After uploading, fetch the content for visualization
-  //         const contentResponse = await axios.get(`http://127.0.0.1:8000/visualize-file/${file.name}`);
-  //         const contentResult = contentResponse.data;
-  //         console.log(contentResult);
-
-  //         // Now you can use the contentResult in your React component as needed
-  //     } catch (error) {
-  //         console.error('Error uploading file:', error);
-  //     }
-  // };
-
-
-
   const parseData = (content) => {
     try {
       setLoading(true);
@@ -123,7 +85,6 @@ export const Datahandling = () => {
       const sheet = workbook.Sheets[sheetName];
       const parsedData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
       setData(parsedData);
-      //replaceMissingValues(parsedData);
       evaluateMissingValues(parsedData);
     } catch (error) {
       setError('Error parsing the file. Please upload a valid file.');

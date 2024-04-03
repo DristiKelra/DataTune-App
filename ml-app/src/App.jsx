@@ -7,8 +7,6 @@ import { FileProvider } from 'layouts/Filecontext';
 
 import Sidenav from "elements/Sidenav";
 
-import { About, Contact, Home, Services, Data, Login, Signin, Datahandling} from "./Pages";
-
 import { useEffect, useMemo } from "react";
 
 
