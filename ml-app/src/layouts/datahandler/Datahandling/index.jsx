@@ -8,6 +8,7 @@ import * as XLSX from 'xlsx';
 import MDBox from 'components/MDBox';
 import { Card } from '@mui/material';
 import MDTypography from 'components/MDTypography';
+import Loader from 'components/Loader';
 
 export const Datahandling = () => {
   //const { file } = useFile();
@@ -139,16 +140,20 @@ export const Datahandling = () => {
     }
   };
   
-  const replaceMissingValues = () => {
+  const replaceMissingValues = (method) => {
     const newData = [...data];
     newData.forEach((row, rowIndex) => {
       row.forEach((cell, cellIndex) => {
         if (cell === null || cell === undefined || cell === '') {
           const columnValues = newData.map((r) => r[cellIndex]).filter((val) => val !== null && val !== undefined && val !== '');
-          const sum = columnValues.reduce((acc, val) => acc + parseFloat(val), 0);
-          const mean = sum / columnValues.length;
-          const median = calculateMedian(columnValues);
-          newData[rowIndex][cellIndex] = median; // or you can use mean instead
+          let newValue;
+          if (method === 'mean') {
+            const sum = columnValues.reduce((acc, val) => acc + parseFloat(val), 0);
+            newValue = sum / columnValues.length;
+          } else if (method === 'median') {
+            newValue = calculateMedian(columnValues);
+          }
+          newData[rowIndex][cellIndex] = newValue;
         }
       });
     });
@@ -195,48 +200,6 @@ export const Datahandling = () => {
       },
     },
   };
-  
-  // return (
-  //   <div style={{ padding: '20px' }}>
-  //     <h1 style={{ marginBottom: '20px' }}>Missing Values Evaluator</h1>
-  //     {/* Rest of your component */}
-  //   </div>
-  // );
-  
-
-  // const customStyles = {
-  // 	header: {
-  // 		style: {
-  // 			minHeight: '56px',
-	// 	},
-  // 	},
-  // 	headRow: {
-  // 		style: {
-  // 			borderTopStyle: 'solid',
-  // 			borderTopWidth: '1px',
-  //       fontWeight: 'bold',
-  // 			borderTopColor: defaultThemes.default.divider.default,
-  // 		},
-  // 	},
-  // 	headCells: {
-  // 		style: {
-  // 			'&:not(:last-of-type)': {
-  // 				borderRightStyle: 'solid',
-  // 				borderRightWidth: '1px',
-  // 				borderRightColor: defaultThemes.default.divider.default,
-  // 			},
-  // 		},
-  // 	},
-  // 	cells: {
-  // 		style: {
-  // 			'&:not(:last-of-type)': {
-  // 				borderRightStyle: 'solid',
-  // 				borderRightWidth: '1px',
-  // 				borderRightColor: defaultThemes.default.divider.default,
-  // 			},
-  // 		},
-  // 	},
-  // };
 
 
   const columns = data.length > 0 && Object.keys(data[0]).map((key) => ({
@@ -247,10 +210,7 @@ export const Datahandling = () => {
    
   }));
 
-  // const handleReplaceValues = () => {
-  //   replaceMissingValues();
-  // };
-
+  
   console.log(data && { data });
 
 
@@ -261,7 +221,7 @@ export const Datahandling = () => {
       <input type="file" accept=".csv, .xlsx, .xls" onChange={handleFileUpload} />
       {/* <a href="{% url 'file-upload' %}">Upload a File</a> */}
       <MDButton  onClick={handleUpload} color ="info"> Upload File</MDButton>
-      {loading && <p>Loading...</p>}
+      {loading && <Loader/>}
       {error && <p>{error}</p>}
       {data.length > 0 && (
         <>
@@ -310,9 +270,6 @@ export const Datahandling = () => {
             Uploaded Data Table
           </MDTypography>
           </MDBox>
-         {/* <MDBox  display="flex" justifyContent="flex-end">
-          <MDButton onClick={handleReplaceValues} color ="success">Replace Missing Values</MDButton>
-          </MDBox> */}
           </MDBox>
         <DataTable
           columns={columns}
@@ -369,6 +326,4 @@ export const Datahandling = () => {
 };
 
 export default Datahandling;
-
-
 
