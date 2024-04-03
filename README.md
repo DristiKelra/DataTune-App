@@ -1,4 +1,3 @@
-DataTune App
 DataTune Application is a React, Django and Python based application. 
 
 Special Thanks goes to: 
